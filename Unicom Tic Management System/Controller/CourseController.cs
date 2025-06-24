@@ -1,111 +1,112 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnicomTICManagementSystem.Models;
+using UnicomTICManagementSystem.Repositories;
 
-
-namespace Unicom_Tic_Management_System.Controller
+namespace UnicomTICManagementSystem.Controllers
 {
-    public class CourseController
+    public static class CourseController
     {
-        private readonly string connectionString = "Data Source=unicom.db;Version=3;";
-
-        // Get all courses
-        public DataTable GetAllCourses()
+        public static void AddCourse(string courseName)
         {
-            DataTable dt = new DataTable();
             try
             {
-                using (SQLiteConnection con = new SQLiteConnection(connectionString))
+                using (var conn = DatabaseManager.GetConnection())
                 {
-                    con.Open();
-                    string query = "SELECT * FROM Courses";
-                    using (SQLiteDataAdapter da = new SQLiteDataAdapter(query, con))
-                    {
-                        da.Fill(dt);
-                    }
+                    conn.Open();
+                    var cmd = new SQLiteCommand("INSERT INTO Courses (CourseName) VALUES (@name)", conn);
+                    cmd.Parameters.AddWithValue("@name", courseName);
+                    cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error loading courses: " + ex.Message);
-            }
-            return dt;
-        }
-
-        // Add a new course
-        public void AddCourse(string courseName)
-        {
-            if (string.IsNullOrWhiteSpace(courseName))
-                throw new ArgumentException("Course name cannot be empty.");
-
-            try
-            {
-                using (SQLiteConnection con = new SQLiteConnection(connectionString))
-                {
-                    con.Open();
-                    string query = "INSERT INTO Courses (CourseName) VALUES (@name)";
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@name", courseName.Trim());
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error adding course: " + ex.Message);
+                Console.WriteLine("Error adding course: " + ex.Message);
             }
         }
 
-        // Update existing course
-        public void UpdateCourse(int courseId, string courseName)
+        public static void UpdateCourse(int courseId, string newName)
         {
-            if (string.IsNullOrWhiteSpace(courseName))
-                throw new ArgumentException("Course name cannot be empty.");
-
             try
             {
-                using (SQLiteConnection con = new SQLiteConnection(connectionString))
+                using (var conn = DatabaseManager.GetConnection())
                 {
-                    con.Open();
-                    string query = "UPDATE Courses SET CourseName = @name WHERE CourseID = @id";
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@name", courseName.Trim());
-                        cmd.Parameters.AddWithValue("@id", courseId);
-                        cmd.ExecuteNonQuery();
-                    }
+                    conn.Open();
+                    var cmd = new SQLiteCommand("UPDATE Courses SET CourseName = @name WHERE CourseID = @id", conn);
+                    cmd.Parameters.AddWithValue("@name", newName);
+                    cmd.Parameters.AddWithValue("@id", courseId);
+                    cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error updating course: " + ex.Message);
+                Console.WriteLine("Error updating course: " + ex.Message);
             }
         }
 
-        // Delete course
-        public void DeleteCourse(int courseId)
+        public static void DeleteCourse(int courseId)
         {
             try
             {
-                using (SQLiteConnection con = new SQLiteConnection(connectionString))
+                using (var conn = DatabaseManager.GetConnection())
                 {
-                    con.Open();
-                    string query = "DELETE FROM Courses WHERE CourseID = @id";
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, con))
+                    conn.Open();
+                    var cmd = new SQLiteCommand("DELETE FROM Courses WHERE CourseID = @id", conn);
+                    cmd.Parameters.AddWithValue("@id", courseId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting course: " + ex.Message);
+            }
+        }
+
+        public static List<Course> GetAllCourses()
+        {
+            var list = new List<Course>();
+            try
+            {
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("SELECT * FROM Courses", conn);
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        cmd.Parameters.AddWithValue("@id", courseId);
-                        cmd.ExecuteNonQuery();
+                        list.Add(new Course
+                        {
+                            CourseID = Convert.ToInt32(reader["CourseID"]),
+                            CourseName = reader["CourseName"].ToString()
+                        });
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error deleting course: " + ex.Message);
+                Console.WriteLine("Error fetching courses: " + ex.Message);
+            }
+            return list;
+        }
+
+        internal static bool CourseExists(string name)
+        {
+            try
+            {
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("SELECT COUNT(*) FROM Courses WHERE LOWER(CourseName) = LOWER(@name)", conn);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    long count = (long)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error checking if course exists: " + ex.Message);
+                return false;
             }
         }
     }

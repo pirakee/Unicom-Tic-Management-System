@@ -1,4 +1,4 @@
-﻿namespace Unicom_Tic_Management_System.Views
+﻿namespace UnicomTICManagementSystem.Views
 {
     partial class CourseForm
     {
@@ -28,110 +28,81 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblCourseID = new System.Windows.Forms.Label();
-            this.lblCourseName = new System.Windows.Forms.Label();
-            this.txtCourseID = new System.Windows.Forms.TextBox();
+            this.lblCourse = new System.Windows.Forms.Label();
             this.txtCourseName = new System.Windows.Forms.TextBox();
+            this.dgvCourses = new System.Windows.Forms.DataGridView();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.dgvCourses = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCourses)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblCourseID
+            // lblCourse
             // 
-            this.lblCourseID.AutoSize = true;
-            this.lblCourseID.Location = new System.Drawing.Point(98, 53);
-            this.lblCourseID.Name = "lblCourseID";
-            this.lblCourseID.Size = new System.Drawing.Size(77, 20);
-            this.lblCourseID.TabIndex = 0;
-            this.lblCourseID.Text = "CourseID";
-            // 
-            // lblCourseName
-            // 
-            this.lblCourseName.AutoSize = true;
-            this.lblCourseName.Location = new System.Drawing.Point(98, 106);
-            this.lblCourseName.Name = "lblCourseName";
-            this.lblCourseName.Size = new System.Drawing.Size(102, 20);
-            this.lblCourseName.TabIndex = 1;
-            this.lblCourseName.Text = "CourseName";
-            // 
-            // txtCourseID
-            // 
-            this.txtCourseID.Location = new System.Drawing.Point(260, 50);
-            this.txtCourseID.Name = "txtCourseID";
-            this.txtCourseID.Size = new System.Drawing.Size(135, 26);
-            this.txtCourseID.TabIndex = 2;
+            this.lblCourse.AutoSize = true;
+            this.lblCourse.Location = new System.Drawing.Point(63, 53);
+            this.lblCourse.Name = "lblCourse";
+            this.lblCourse.Size = new System.Drawing.Size(74, 13);
+            this.lblCourse.TabIndex = 0;
+            this.lblCourse.Text = "Course Name:";
             // 
             // txtCourseName
             // 
-            this.txtCourseName.Location = new System.Drawing.Point(260, 103);
+            this.txtCourseName.Location = new System.Drawing.Point(245, 53);
             this.txtCourseName.Name = "txtCourseName";
-            this.txtCourseName.Size = new System.Drawing.Size(135, 26);
-            this.txtCourseName.TabIndex = 3;
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(123, 201);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(96, 42);
-            this.btnAdd.TabIndex = 4;
-            this.btnAdd.Text = "Add";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            // 
-            // btnUpdate
-            // 
-            this.btnUpdate.Location = new System.Drawing.Point(328, 201);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(96, 42);
-            this.btnUpdate.TabIndex = 5;
-            this.btnUpdate.Text = "Update";
-            this.btnUpdate.UseVisualStyleBackColor = true;
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(517, 201);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(96, 42);
-            this.btnDelete.TabIndex = 6;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            // 
-            // btnClear
-            // 
-            this.btnClear.Location = new System.Drawing.Point(692, 364);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(96, 42);
-            this.btnClear.TabIndex = 7;
-            this.btnClear.Text = "Clear";
-            this.btnClear.UseVisualStyleBackColor = true;
+            this.txtCourseName.Size = new System.Drawing.Size(100, 20);
+            this.txtCourseName.TabIndex = 1;
             // 
             // dgvCourses
             // 
             this.dgvCourses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCourses.Location = new System.Drawing.Point(102, 272);
+            this.dgvCourses.Location = new System.Drawing.Point(169, 108);
             this.dgvCourses.Name = "dgvCourses";
-            this.dgvCourses.RowHeadersWidth = 62;
-            this.dgvCourses.RowTemplate.Height = 28;
-            this.dgvCourses.Size = new System.Drawing.Size(552, 166);
-            this.dgvCourses.TabIndex = 8;
+            this.dgvCourses.Size = new System.Drawing.Size(240, 150);
+            this.dgvCourses.TabIndex = 2;
+            this.dgvCourses.CellContextMenuStripChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCourses_CellClick);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(182, 297);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 3;
+            this.btnAdd.Text = "Add Course";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(302, 297);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.TabIndex = 4;
+            this.btnUpdate.Text = "Update Selected";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(415, 297);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 5;
+            this.btnDelete.Text = "Delete Selected";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // CourseForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.dgvCourses);
-            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.dgvCourses);
             this.Controls.Add(this.txtCourseName);
-            this.Controls.Add(this.txtCourseID);
-            this.Controls.Add(this.lblCourseName);
-            this.Controls.Add(this.lblCourseID);
+            this.Controls.Add(this.lblCourse);
             this.Name = "CourseForm";
             this.Text = "CourseForm";
             this.Load += new System.EventHandler(this.CourseForm_Load);
@@ -143,14 +114,11 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblCourseID;
-        private System.Windows.Forms.Label lblCourseName;
-        private System.Windows.Forms.TextBox txtCourseID;
+        private System.Windows.Forms.Label lblCourse;
         private System.Windows.Forms.TextBox txtCourseName;
+        private System.Windows.Forms.DataGridView dgvCourses;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.DataGridView dgvCourses;
     }
 }

@@ -2,52 +2,37 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Unicom_Tic_Management_System.Helpers;
+using System.Windows.Forms;
+using UnicomTICManagementSystem.Repositories;
 
-namespace Unicom_Tic_Management_System.Controller
+namespace UnicomTICManagementSystem.Controllers
 {
-    public class LoginController
+    public static class LoginController
     {
-        public bool Login(string username, string password, string role, out string errorMessage)
+        public static string CheckLogin(string username, string password)
         {
-            errorMessage = "";
-
             try
             {
-                using (SQLiteConnection conn = DBConnection.GetConnection()) // ✅ use static connection method
+                using (var conn = DatabaseManager.GetConnection())
                 {
                     conn.Open();
-
-                    string query = "SELECT COUNT(*) FROM Users WHERE Username = @username AND Password = @password AND Role = @role";
-
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+                    string query = "SELECT Role FROM Users WHERE Username = @username AND Password = @password";
+                    using (var cmd = new SQLiteCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@username", username);
-                        cmd.Parameters.AddWithValue("@password", password); // plain text (or hash if needed)
-                        cmd.Parameters.AddWithValue("@role", role);
-
-                        int count = Convert.ToInt32(cmd.ExecuteScalar());
-
-                        if (count == 1)
-                            return true;
-                        else
-                        {
-                            errorMessage = "Invalid username, password, or role.";
-                            return false;
-                        }
+                        cmd.Parameters.AddWithValue("@password", password);
+                        var result = cmd.ExecuteScalar();
+                        return result?.ToString(); // Returns role or null
                     }
                 }
             }
             catch (Exception ex)
             {
-                errorMessage = "Login failed: " + ex.Message;
-                return false;
+                MessageBox.Show("❌ Error during login:\n" + ex.Message, "Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
             }
         }
-        
-
     }
 }

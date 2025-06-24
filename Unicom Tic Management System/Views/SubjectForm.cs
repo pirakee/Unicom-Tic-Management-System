@@ -7,16 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unicom_Tic_Management_System.Models;
-using Unicom_Tic_Management_System.Repositories;
+using UnicomTICManagementSystem.Controllers;
+using UnicomTICManagementSystem.Models;
 
 namespace Unicom_Tic_Management_System.Views
 {
     public partial class SubjectForm : Form
     {
-        private readonly SubjectRepository subjectRepo = new SubjectRepository();
-        private readonly CourseRepository courseRepo = new CourseRepository();
-        private int selectedSubjectId = -1;
+
+        private List<Course> courses;
 
         public SubjectForm()
         {
@@ -27,106 +26,46 @@ namespace Unicom_Tic_Management_System.Views
 
         private void LoadCourses()
         {
-            try
-            {
-                var courses = courseRepo.GetAllCourses();
-                cbCourse.DataSource = courses;
-                cbCourse.DisplayMember = "CourseName";
-                cbCourse.ValueMember = "CourseID";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading courses: " + ex.Message);
-            }
+            courses = CourseController.GetAllCourses();
+            cmbCourse.DataSource = courses;
+            cmbCourse.DisplayMember = "CourseName";
+            cmbCourse.ValueMember = "CourseID";
         }
 
         private void LoadSubjects()
         {
-            try
-            {
-                dgvSubjects.DataSource = subjectRepo.GetAllSubjects();
-                dgvSubjects.ClearSelection();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading subjects: " + ex.Message);
-            }
-        }
-
-        private void ClearForm()
-        {
-            txtSubjectName.Clear();
-            cbCourse.SelectedIndex = 0;
-            selectedSubjectId = -1;
+            dgvSubjects.DataSource = SubjectController.GetAllSubjects();
+            dgvSubjects.Columns["SubjectID"].Visible = false;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Subject subject = new Subject
-                {
-                    SubjectName = txtSubjectName.Text.Trim(),
-                    CourseID = (int)cbCourse.SelectedValue
-                };
-
-                subjectRepo.AddSubject(subject);
-                MessageBox.Show("Subject added successfully.");
-                LoadSubjects();
-                ClearForm();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error adding subject: " + ex.Message);
-            }
+            if (string.IsNullOrWhiteSpace(txtSubjectName.Text)) return;
+            int courseId = (int)cmbCourse.SelectedValue;
+            SubjectController.AddSubject(txtSubjectName.Text.Trim(), courseId);
+            LoadSubjects();
+            txtSubjectName.Clear();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (selectedSubjectId == -1)
+            if (dgvSubjects.SelectedRows.Count > 0)
             {
-                MessageBox.Show("Please select a subject to update.");
-                return;
-            }
-
-            try
-            {
-                Subject subject = new Subject
-                {
-                    SubjectID = selectedSubjectId,
-                    SubjectName = txtSubjectName.Text.Trim(),
-                    CourseID = (int)cbCourse.SelectedValue
-                };
-
-                subjectRepo.UpdateSubject(subject);
-                MessageBox.Show("Subject updated successfully.");
+                int id = Convert.ToInt32(dgvSubjects.SelectedRows[0].Cells["SubjectID"].Value);
+                string name = txtSubjectName.Text.Trim();
+                int courseId = (int)cmbCourse.SelectedValue;
+                SubjectController.UpdateSubject(id, name, courseId);
                 LoadSubjects();
-                ClearForm();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error updating subject: " + ex.Message);
             }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (selectedSubjectId == -1)
+            if (dgvSubjects.SelectedRows.Count > 0)
             {
-                MessageBox.Show("Please select a subject to delete.");
-                return;
-            }
-
-            try
-            {
-                subjectRepo.DeleteSubject(selectedSubjectId);
-                MessageBox.Show("Subject deleted successfully.");
+                int id = Convert.ToInt32(dgvSubjects.SelectedRows[0].Cells["SubjectID"].Value);
+                SubjectController.DeleteSubject(id);
                 LoadSubjects();
-                ClearForm();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error deleting subject: " + ex.Message);
             }
         }
 
@@ -134,19 +73,22 @@ namespace Unicom_Tic_Management_System.Views
         {
             if (e.RowIndex >= 0)
             {
-                selectedSubjectId = Convert.ToInt32(dgvSubjects.Rows[e.RowIndex].Cells["SubjectID"].Value);
                 txtSubjectName.Text = dgvSubjects.Rows[e.RowIndex].Cells["SubjectName"].Value.ToString();
-                cbCourse.SelectedValue = Convert.ToInt32(dgvSubjects.Rows[e.RowIndex].Cells["CourseID"].Value);
+                int courseId = Convert.ToInt32(dgvSubjects.Rows[e.RowIndex].Cells["CourseID"].Value);
+                cmbCourse.SelectedValue = courseId;
             }
         }
-
-        private void btnClear_Click(object sender, EventArgs e)
-        {
-            ClearForm();
-        }
-
+        //public SubjectForm()
+        //{
+        //    InitializeComponent();
+        //}
 
         private void SubjectForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvSubjects_CancelRowEdit(object sender, QuestionEventArgs e)
         {
 
         }

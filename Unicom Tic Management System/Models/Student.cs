@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Unicom_Tic_Management_System.Models
+namespace UnicomTICManagementSystem.Models
 {
     public class Student
     {
-        public int StudentID { get; set; }         // Primary Key
-        public string StudentName { get; set; }    // Full Name
-        public string Email { get; set; }          // Email ID
-        public int CourseID { get; set; }          // Foreign Key to Course
-        public string CourseName { get; set; }     // Optional: for display (JOIN result)
+        public int StudentID { get; set; }
+        public string Name { get; set; }
+        public int CourseID { get; set; }
+        public string StudentName { get; internal set; }
     }
 }

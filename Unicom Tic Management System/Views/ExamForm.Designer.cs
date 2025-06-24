@@ -1,4 +1,6 @@
-﻿namespace Unicom_Tic_Management_System.Views
+﻿using System;
+
+namespace UnicomTICManagementSystem.Views
 {
     partial class ExamForm
     {
@@ -28,197 +30,129 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cbCourse = new System.Windows.Forms.ComboBox();
-            this.cbSubject = new System.Windows.Forms.ComboBox();
-            this.dtpExamDate = new System.Windows.Forms.DateTimePicker();
-            this.txtRoom = new System.Windows.Forms.TextBox();
-            this.txtTime = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtExamName = new System.Windows.Forms.TextBox();
+            this.cmbSubject = new System.Windows.Forms.ComboBox();
+            this.dgvExams = new System.Windows.Forms.DataGridView();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.dgvExams = new System.Windows.Forms.DataGridView();
-            this.lblCourse = new System.Windows.Forms.Label();
-            this.lblSubject = new System.Windows.Forms.Label();
-            this.lblExamDate = new System.Windows.Forms.Label();
-            this.lblTime = new System.Windows.Forms.Label();
-            this.lblRoom = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvExams)).BeginInit();
             this.SuspendLayout();
             // 
-            // cbCourse
+            // label1
             // 
-            this.cbCourse.FormattingEnabled = true;
-            this.cbCourse.Location = new System.Drawing.Point(182, 22);
-            this.cbCourse.Name = "cbCourse";
-            this.cbCourse.Size = new System.Drawing.Size(121, 28);
-            this.cbCourse.TabIndex = 0;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(54, 47);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "label1";
             // 
-            // cbSubject
+            // label2
             // 
-            this.cbSubject.FormattingEnabled = true;
-            this.cbSubject.Location = new System.Drawing.Point(182, 73);
-            this.cbSubject.Name = "cbSubject";
-            this.cbSubject.Size = new System.Drawing.Size(121, 28);
-            this.cbSubject.TabIndex = 1;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(54, 89);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "label2";
             // 
-            // dtpExamDate
+            // txtExamName
             // 
-            this.dtpExamDate.Location = new System.Drawing.Point(182, 130);
-            this.dtpExamDate.Name = "dtpExamDate";
-            this.dtpExamDate.Size = new System.Drawing.Size(200, 26);
-            this.dtpExamDate.TabIndex = 2;
+            this.txtExamName.Location = new System.Drawing.Point(226, 47);
+            this.txtExamName.Name = "txtExamName";
+            this.txtExamName.Size = new System.Drawing.Size(100, 20);
+            this.txtExamName.TabIndex = 2;
             // 
-            // txtRoom
+            // cmbSubject
             // 
-            this.txtRoom.Location = new System.Drawing.Point(182, 230);
-            this.txtRoom.Name = "txtRoom";
-            this.txtRoom.Size = new System.Drawing.Size(100, 26);
-            this.txtRoom.TabIndex = 3;
-            // 
-            // txtTime
-            // 
-            this.txtTime.Location = new System.Drawing.Point(182, 178);
-            this.txtTime.Name = "txtTime";
-            this.txtTime.Size = new System.Drawing.Size(100, 26);
-            this.txtTime.TabIndex = 4;
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(12, 283);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(119, 40);
-            this.btnAdd.TabIndex = 5;
-            this.btnAdd.Text = "Add";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            // 
-            // btnUpdate
-            // 
-            this.btnUpdate.Location = new System.Drawing.Point(163, 283);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(119, 40);
-            this.btnUpdate.TabIndex = 6;
-            this.btnUpdate.Text = "Update";
-            this.btnUpdate.UseVisualStyleBackColor = true;
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(313, 283);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(119, 40);
-            this.btnDelete.TabIndex = 7;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            // 
-            // btnClear
-            // 
-            this.btnClear.Location = new System.Drawing.Point(494, 370);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(119, 40);
-            this.btnClear.TabIndex = 8;
-            this.btnClear.Text = "Clear";
-            this.btnClear.UseVisualStyleBackColor = true;
+            this.cmbSubject.FormattingEnabled = true;
+            this.cmbSubject.Location = new System.Drawing.Point(226, 81);
+            this.cmbSubject.Name = "cmbSubject";
+            this.cmbSubject.Size = new System.Drawing.Size(121, 21);
+            this.cmbSubject.TabIndex = 3;
             // 
             // dgvExams
             // 
             this.dgvExams.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvExams.Location = new System.Drawing.Point(182, 329);
+            this.dgvExams.Location = new System.Drawing.Point(161, 145);
             this.dgvExams.Name = "dgvExams";
-            this.dgvExams.RowHeadersWidth = 62;
-            this.dgvExams.RowTemplate.Height = 28;
-            this.dgvExams.Size = new System.Drawing.Size(240, 109);
-            this.dgvExams.TabIndex = 9;
+            this.dgvExams.Size = new System.Drawing.Size(240, 150);
+            this.dgvExams.TabIndex = 4;
+            this.dgvExams.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvExams_CellContentClick);
             // 
-            // lblCourse
+            // btnAdd
             // 
-            this.lblCourse.AutoSize = true;
-            this.lblCourse.Location = new System.Drawing.Point(36, 30);
-            this.lblCourse.Name = "lblCourse";
-            this.lblCourse.Size = new System.Drawing.Size(60, 20);
-            this.lblCourse.TabIndex = 11;
-            this.lblCourse.Text = "Course";
+            this.btnAdd.Location = new System.Drawing.Point(161, 336);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 5;
+            this.btnAdd.Text = "Add";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // lblSubject
+            // btnUpdate
             // 
-            this.lblSubject.AutoSize = true;
-            this.lblSubject.Location = new System.Drawing.Point(36, 73);
-            this.lblSubject.Name = "lblSubject";
-            this.lblSubject.Size = new System.Drawing.Size(63, 20);
-            this.lblSubject.TabIndex = 12;
-            this.lblSubject.Text = "Subject";
+            this.btnUpdate.Location = new System.Drawing.Point(281, 336);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.TabIndex = 6;
+            this.btnUpdate.Text = "Update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
-            // lblExamDate
+            // btnDelete
             // 
-            this.lblExamDate.AutoSize = true;
-            this.lblExamDate.Location = new System.Drawing.Point(36, 136);
-            this.lblExamDate.Name = "lblExamDate";
-            this.lblExamDate.Size = new System.Drawing.Size(84, 20);
-            this.lblExamDate.TabIndex = 13;
-            this.lblExamDate.Text = "ExamDate";
-            // 
-            // lblTime
-            // 
-            this.lblTime.AutoSize = true;
-            this.lblTime.Location = new System.Drawing.Point(36, 184);
-            this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(43, 20);
-            this.lblTime.TabIndex = 14;
-            this.lblTime.Text = "Time";
-            // 
-            // lblRoom
-            // 
-            this.lblRoom.AutoSize = true;
-            this.lblRoom.Location = new System.Drawing.Point(36, 233);
-            this.lblRoom.Name = "lblRoom";
-            this.lblRoom.Size = new System.Drawing.Size(52, 20);
-            this.lblRoom.TabIndex = 15;
-            this.lblRoom.Text = "Room";
+            this.btnDelete.Location = new System.Drawing.Point(385, 336);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 7;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // ExamForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.lblRoom);
-            this.Controls.Add(this.lblTime);
-            this.Controls.Add(this.lblExamDate);
-            this.Controls.Add(this.lblSubject);
-            this.Controls.Add(this.lblCourse);
-            this.Controls.Add(this.dgvExams);
-            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.txtTime);
-            this.Controls.Add(this.txtRoom);
-            this.Controls.Add(this.dtpExamDate);
-            this.Controls.Add(this.cbSubject);
-            this.Controls.Add(this.cbCourse);
+            this.Controls.Add(this.dgvExams);
+            this.Controls.Add(this.cmbSubject);
+            this.Controls.Add(this.txtExamName);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Name = "ExamForm";
             this.Text = "ExamForm";
-            this.Load += new System.EventHandler(this.ExamForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvExams)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
+        private void btnDelete_Click_1(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void btnUpdate_Click_1(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
-        private System.Windows.Forms.ComboBox cbCourse;
-        private System.Windows.Forms.ComboBox cbSubject;
-        private System.Windows.Forms.DateTimePicker dtpExamDate;
-        private System.Windows.Forms.TextBox txtRoom;
-        private System.Windows.Forms.TextBox txtTime;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtExamName;
+        private System.Windows.Forms.ComboBox cmbSubject;
+        private System.Windows.Forms.DataGridView dgvExams;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.DataGridView dgvExams;
-        private System.Windows.Forms.Label lblCourse;
-        private System.Windows.Forms.Label lblSubject;
-        private System.Windows.Forms.Label lblExamDate;
-        private System.Windows.Forms.Label lblTime;
-        private System.Windows.Forms.Label lblRoom;
     }
 }

@@ -1,79 +1,99 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicom_Tic_Management_System.Models;
-using Unicom_Tic_Management_System.Repositories;
+using System.Data.SQLite;
+using System.Windows.Forms;
+using UnicomTICManagementSystem.Models;
+using UnicomTICManagementSystem.Repositories;
 
-namespace Unicom_Tic_Management_System.Controller
+namespace UnicomTICManagementSystem.Controllers
 {
-    public class StudentController
+    public static class StudentController
     {
-        private readonly StudentRepository studentRepo = new StudentRepository();
-
-        public List<Student> GetAllStudents()
+        public static void AddStudent(string name, int courseId)
         {
             try
             {
-                return studentRepo.GetAllStudents();
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("INSERT INTO Students (Name, CourseID) VALUES (@name, @course)", conn);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@course", courseId);
+                    cmd.ExecuteNonQuery();
+                }
+                MessageBox.Show("✅ Student added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error retrieving students: " + ex.Message);
+                MessageBox.Show("❌ Error adding student:\n" + ex.Message, "Add Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public void AddStudent(Student student)
+        public static List<Student> GetAllStudents()
         {
-            if (string.IsNullOrWhiteSpace(student.StudentName))
-                throw new ArgumentException("Student name is required.");
-            if (string.IsNullOrWhiteSpace(student.Email))
-                throw new ArgumentException("Email is required.");
-            if (student.CourseID <= 0)
-                throw new ArgumentException("Course selection is required.");
-
+            var list = new List<Student>();
             try
             {
-                studentRepo.AddStudent(student);
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("SELECT * FROM Students", conn);
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        list.Add(new Student
+                        {
+                            StudentID = Convert.ToInt32(reader["StudentID"]),
+                            Name = reader["Name"].ToString(),
+                            CourseID = Convert.ToInt32(reader["CourseID"])
+                        });
+                    }
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error adding student: " + ex.Message);
+                MessageBox.Show("❌ Error loading students:\n" + ex.Message, "Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return list;
+        }
+
+        public static void UpdateStudent(int id, string name, int courseId)
+        {
+            try
+            {
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("UPDATE Students SET Name = @name, CourseID = @course WHERE StudentID = @id", conn);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@course", courseId);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                MessageBox.Show("✅ Student updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("❌ Error updating student:\n" + ex.Message, "Update Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public void UpdateStudent(Student student)
+        public static void DeleteStudent(int id)
         {
-            if (student.StudentID <= 0)
-                throw new ArgumentException("Invalid student ID.");
-            if (string.IsNullOrWhiteSpace(student.StudentName))
-                throw new ArgumentException("Student name is required.");
-            if (string.IsNullOrWhiteSpace(student.Email))
-                throw new ArgumentException("Email is required.");
-
             try
             {
-                studentRepo.UpdateStudent(student);
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("DELETE FROM Students WHERE StudentID = @id", conn);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                MessageBox.Show("✅ Student deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error updating student: " + ex.Message);
-            }
-        }
-
-        public void DeleteStudent(int studentId)
-        {
-            if (studentId <= 0)
-                throw new ArgumentException("Invalid student ID.");
-
-            try
-            {
-                studentRepo.DeleteStudent(studentId);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error deleting student: " + ex.Message);
+                MessageBox.Show("❌ Error deleting student:\n" + ex.Message, "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

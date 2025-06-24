@@ -28,111 +28,81 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblSubjectName = new System.Windows.Forms.Label();
-            this.lblCourse = new System.Windows.Forms.Label();
-            this.txtSubjectName = new System.Windows.Forms.TextBox();
-            this.cbCourse = new System.Windows.Forms.ComboBox();
-            this.dgvSubjects = new System.Windows.Forms.DataGridView();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.dgvSubjects = new System.Windows.Forms.DataGridView();
+            this.cmbCourse = new System.Windows.Forms.ComboBox();
+            this.txtSubjectName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSubjects)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblSubjectName
+            // btnDelete
             // 
-            this.lblSubjectName.AutoSize = true;
-            this.lblSubjectName.Location = new System.Drawing.Point(59, 58);
-            this.lblSubjectName.Name = "lblSubjectName";
-            this.lblSubjectName.Size = new System.Drawing.Size(105, 20);
-            this.lblSubjectName.TabIndex = 0;
-            this.lblSubjectName.Text = "SubjectName";
+            this.btnDelete.Location = new System.Drawing.Point(483, 394);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 11;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // lblCourse
+            // btnUpdate
             // 
-            this.lblCourse.AutoSize = true;
-            this.lblCourse.Location = new System.Drawing.Point(59, 119);
-            this.lblCourse.Name = "lblCourse";
-            this.lblCourse.Size = new System.Drawing.Size(60, 20);
-            this.lblCourse.TabIndex = 1;
-            this.lblCourse.Text = "Course";
+            this.btnUpdate.Location = new System.Drawing.Point(361, 394);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.TabIndex = 10;
+            this.btnUpdate.Text = "Update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
-            // txtSubjectName
+            // btnAdd
             // 
-            this.txtSubjectName.Location = new System.Drawing.Point(178, 58);
-            this.txtSubjectName.Name = "txtSubjectName";
-            this.txtSubjectName.Size = new System.Drawing.Size(100, 26);
-            this.txtSubjectName.TabIndex = 2;
-            // 
-            // cbCourse
-            // 
-            this.cbCourse.FormattingEnabled = true;
-            this.cbCourse.Location = new System.Drawing.Point(178, 119);
-            this.cbCourse.Name = "cbCourse";
-            this.cbCourse.Size = new System.Drawing.Size(121, 28);
-            this.cbCourse.TabIndex = 3;
+            this.btnAdd.Location = new System.Drawing.Point(238, 394);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 9;
+            this.btnAdd.Text = "Add";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // dgvSubjects
             // 
             this.dgvSubjects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSubjects.Location = new System.Drawing.Point(162, 288);
+            this.dgvSubjects.Location = new System.Drawing.Point(208, 153);
             this.dgvSubjects.Name = "dgvSubjects";
-            this.dgvSubjects.RowHeadersWidth = 62;
-            this.dgvSubjects.RowTemplate.Height = 28;
-            this.dgvSubjects.Size = new System.Drawing.Size(240, 150);
-            this.dgvSubjects.TabIndex = 4;
+            this.dgvSubjects.Size = new System.Drawing.Size(384, 204);
+            this.dgvSubjects.TabIndex = 8;
+            this.dgvSubjects.CancelRowEdit += new System.Windows.Forms.QuestionEventHandler(this.dgvSubjects_CancelRowEdit);
             // 
-            // btnAdd
+            // cmbCourse
             // 
-            this.btnAdd.Location = new System.Drawing.Point(63, 199);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(101, 46);
-            this.btnAdd.TabIndex = 5;
-            this.btnAdd.Text = "Add";
-            this.btnAdd.UseVisualStyleBackColor = true;
+            this.cmbCourse.FormattingEnabled = true;
+            this.cmbCourse.Location = new System.Drawing.Point(312, 86);
+            this.cmbCourse.Name = "cmbCourse";
+            this.cmbCourse.Size = new System.Drawing.Size(219, 21);
+            this.cmbCourse.TabIndex = 7;
             // 
-            // btnUpdate
+            // txtSubjectName
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(268, 199);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(101, 46);
-            this.btnUpdate.TabIndex = 6;
-            this.btnUpdate.Text = "Update";
-            this.btnUpdate.UseVisualStyleBackColor = true;
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(445, 199);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(101, 46);
-            this.btnDelete.TabIndex = 7;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            // 
-            // btnClear
-            // 
-            this.btnClear.Location = new System.Drawing.Point(675, 392);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(101, 46);
-            this.btnClear.TabIndex = 8;
-            this.btnClear.Text = "Clear";
-            this.btnClear.UseVisualStyleBackColor = true;
+            this.txtSubjectName.Location = new System.Drawing.Point(312, 33);
+            this.txtSubjectName.Name = "txtSubjectName";
+            this.txtSubjectName.Size = new System.Drawing.Size(219, 20);
+            this.txtSubjectName.TabIndex = 6;
+            this.txtSubjectName.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // SubjectForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.dgvSubjects);
-            this.Controls.Add(this.cbCourse);
+            this.Controls.Add(this.cmbCourse);
             this.Controls.Add(this.txtSubjectName);
-            this.Controls.Add(this.lblCourse);
-            this.Controls.Add(this.lblSubjectName);
             this.Name = "SubjectForm";
             this.Text = "SubjectForm";
             this.Load += new System.EventHandler(this.SubjectForm_Load);
@@ -144,14 +114,11 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblSubjectName;
-        private System.Windows.Forms.Label lblCourse;
-        private System.Windows.Forms.TextBox txtSubjectName;
-        private System.Windows.Forms.ComboBox cbCourse;
-        private System.Windows.Forms.DataGridView dgvSubjects;
-        private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.DataGridView dgvSubjects;
+        private System.Windows.Forms.ComboBox cmbCourse;
+        private System.Windows.Forms.TextBox txtSubjectName;
     }
 }

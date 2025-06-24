@@ -7,143 +7,113 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unicom_Tic_Management_System.Controller;
-using Unicom_Tic_Management_System.Models;
-using Unicom_Tic_Management_System.Repositories;
+using UnicomTICManagementSystem.Controllers;
+using UnicomTICManagementSystem.Models;
 
-namespace Unicom_Tic_Management_System.Views
-
+namespace UnicomTICManagementSystem.Views
 {
     public partial class TimetableForm : Form
     {
-        private readonly TimetableController controller;
-        private readonly CourseRepository courseRepo;
-        private readonly SubjectRepository subjectRepo;
-        //private readonly RoomRepository roomRepo;
+        private List<Subject> subjects;
+        private List<Room> rooms;
+
+        public TimetableForm(List<Room> rooms)
+        {
+            this.rooms = rooms;
+        }
+
+        public object RoomController { get; private set; }
 
         public TimetableForm()
         {
             InitializeComponent();
-            controller = new TimetableController();
-            courseRepo = new CourseRepository();
-            subjectRepo = new SubjectRepository();
-            //roomRepo = new RoomRepository();
-
-            LoadCombos();
+            LoadSubjects();
+            LoadRooms();
             LoadTimetables();
-        }
-
-        private void LoadCombos()
-        {
-            cbCourse.DataSource = courseRepo.GetAllCourses();
-            cbCourse.DisplayMember = "CourseName";
-            cbCourse.ValueMember = "CourseID";
-
-            //cbRoom.DataSource = roomRepo.GetAllRooms();
-            cbRoom.DisplayMember = "RoomName";
-            cbRoom.ValueMember = "RoomID";
-
-            cbDay.Items.AddRange(new string[]
-            {
-                    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
-            });
-
-            cbCourse.SelectedIndexChanged += (s, e) => LoadSubjects();
-            LoadSubjects(); // initial load
         }
 
         private void LoadSubjects()
         {
-            if (cbCourse.SelectedValue is int courseId)
-            {
-                //cbSubject.DataSource = subjectRepo.GetSubjectsByCourseId(courseId);
-                //cbSubject.DisplayMember = "SubjectName";
-                //cbSubject.ValueMember = "SubjectID";
-            }
+            subjects = SubjectController.GetAllSubjects();
+            cmbSubject.DataSource = subjects;
+            cmbSubject.DisplayMember = "SubjectName";
+            cmbSubject.ValueMember = "SubjectID";
+        }
+
+        private void LoadRooms()
+        {
+           // rooms = RoomController.GetAllRooms(); // static method
+            cmbRoom.DataSource = rooms;
+            cmbRoom.DisplayMember = "RoomName";
+            cmbRoom.ValueMember = "RoomID";
         }
 
         private void LoadTimetables()
         {
-            dgvTimetable.DataSource = controller.GetAllTimetables();
-        }
-
-        private void ClearForm()
-        {
-            cbCourse.SelectedIndex = 0;
-            cbSubject.SelectedIndex = 0;
-            cbRoom.SelectedIndex = 0;
-            cbDay.SelectedIndex = 0;
-            txtTime.Clear();
+            dgvTimetables.DataSource = TimetableController.GetAllTimetables();
+            dgvTimetables.Columns["TimetableID"].Visible = false;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            var timetable = new Timetable
+            if (string.IsNullOrWhiteSpace(txtTimeSlot.Text))
             {
-                CourseID = Convert.ToInt32(cbCourse.SelectedValue),
-                SubjectID = Convert.ToInt32(cbSubject.SelectedValue),
-                RoomID = Convert.ToInt32(cbRoom.SelectedValue),
-                Day = cbDay.Text,
-                Time = txtTime.Text
-            };
+                MessageBox.Show("Please enter a time slot.");
+                return;
+            }
 
-            controller.AddTimetable(timetable);
+            int subjectId = (int)cmbSubject.SelectedValue;
+            int roomId = (int)cmbRoom.SelectedValue;
+
+            TimetableController.AddTimetable(subjectId, txtTimeSlot.Text.Trim(), roomId);
             LoadTimetables();
-            ClearForm();
+            txtTimeSlot.Clear();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (dgvTimetable.CurrentRow != null)
+            if (dgvTimetables.SelectedRows.Count > 0)
             {
-                var timetable = new Timetable
-                {
-                    TimetableID = Convert.ToInt32(dgvTimetable.CurrentRow.Cells["TimetableID"].Value),
-                    CourseID = Convert.ToInt32(cbCourse.SelectedValue),
-                    SubjectID = Convert.ToInt32(cbSubject.SelectedValue),
-                    RoomID = Convert.ToInt32(cbRoom.SelectedValue),
-                    Day = cbDay.Text,
-                    Time = txtTime.Text
-                };
+                int id = Convert.ToInt32(dgvTimetables.SelectedRows[0].Cells["TimetableID"].Value);
+                int subjectId = (int)cmbSubject.SelectedValue;
+                int roomId = (int)cmbRoom.SelectedValue;
+                string slot = txtTimeSlot.Text.Trim();
 
-                controller.UpdateTimetable(timetable);
+                TimetableController.UpdateTimetable(id, subjectId, slot, roomId);
                 LoadTimetables();
-                ClearForm();
             }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (dgvTimetable.CurrentRow != null)
+            if (dgvTimetables.SelectedRows.Count > 0)
             {
-                int id = Convert.ToInt32(dgvTimetable.CurrentRow.Cells["TimetableID"].Value);
-                controller.DeleteTimetable(id);
+                int id = Convert.ToInt32(dgvTimetables.SelectedRows[0].Cells["TimetableID"].Value);
+                TimetableController.DeleteTimetable(id);
                 LoadTimetables();
-                ClearForm();
             }
         }
 
-        private void dgvTimetable_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvTimetables_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                var row = dgvTimetable.Rows[e.RowIndex];
-                cbCourse.SelectedValue = Convert.ToInt32(row.Cells["CourseID"].Value);
-                cbSubject.SelectedValue = Convert.ToInt32(row.Cells["SubjectID"].Value);
-                cbRoom.SelectedValue = Convert.ToInt32(row.Cells["RoomID"].Value);
-                cbDay.Text = row.Cells["Day"].Value.ToString();
-                txtTime.Text = row.Cells["Time"].Value.ToString();
+                txtTimeSlot.Text = dgvTimetables.Rows[e.RowIndex].Cells["TimeSlot"].Value.ToString();
+                cmbSubject.SelectedValue = Convert.ToInt32(dgvTimetables.Rows[e.RowIndex].Cells["SubjectID"].Value);
+                cmbRoom.SelectedValue = Convert.ToInt32(dgvTimetables.Rows[e.RowIndex].Cells["RoomID"].Value);
             }
         }
 
-        private void btnClear_Click(object sender, EventArgs e)
-        {
-            ClearForm();
-        }
 
         private void TimetableForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is TimetableForm form &&
+                   EqualityComparer<List<Room>>.Default.Equals(rooms, form.rooms);
         }
     }
 }

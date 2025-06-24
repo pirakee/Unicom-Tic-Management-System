@@ -1,86 +1,111 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicom_Tic_Management_System.Models;
-using Unicom_Tic_Management_System.Repositories;
+using System.Data.SQLite;
+using System.Windows.Forms;
+using UnicomTICManagementSystem.Models;
+using UnicomTICManagementSystem.Repositories;
 
-namespace Unicom_Tic_Management_System.Controller
+namespace UnicomTICManagementSystem.Controllers
 {
-    public class ExamController
+    public static class ExamController
     {
-        private readonly ExamRepository examRepo = new ExamRepository();
-
-        public List<Exam> GetAllExams()
+        public static List<Exam> GetAllExams()
         {
+            var exams = new List<Exam>();
             try
             {
-                return examRepo.GetAllExams();
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    string query = "SELECT ExamID, ExamName, SubjectID FROM Exams";
+                    using (var cmd = new SQLiteCommand(query, conn))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            exams.Add(new Exam
+                            {
+                                ExamID = Convert.ToInt32(reader["ExamID"]),
+                                ExamName = reader["ExamName"].ToString(),
+                                SubjectID = Convert.ToInt32(reader["SubjectID"])
+                            });
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error loading exams: " + ex.Message);
+                MessageBox.Show("❌ Error loading exams:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return exams;
+        }
+
+        public static void AddExam(string examName, int subjectId)
+        {
+            try
+            {
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    string query = "INSERT INTO Exams (ExamName, SubjectID) VALUES (@name, @subjectId)";
+                    using (var cmd = new SQLiteCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@name", examName);
+                        cmd.Parameters.AddWithValue("@subjectId", subjectId);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                MessageBox.Show("✅ Exam added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("❌ Error adding exam:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public void AddExam(Exam exam)
+        public static void UpdateExam(int examId, string examName, int subjectId)
         {
-            // Validation
-            if (exam.CourseID <= 0)
-                throw new ArgumentException("Please select a course.");
-            if (exam.SubjectID <= 0)
-                throw new ArgumentException("Please select a subject.");
-            if (string.IsNullOrWhiteSpace(exam.Time))
-                throw new ArgumentException("Exam time is required.");
-            if (string.IsNullOrWhiteSpace(exam.Room))
-                throw new ArgumentException("Room is required.");
-
             try
             {
-                examRepo.AddExam(exam);
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    string query = "UPDATE Exams SET ExamName = @name, SubjectID = @subjectId WHERE ExamID = @id";
+                    using (var cmd = new SQLiteCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@name", examName);
+                        cmd.Parameters.AddWithValue("@subjectId", subjectId);
+                        cmd.Parameters.AddWithValue("@id", examId);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                MessageBox.Show("✅ Exam updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error adding exam: " + ex.Message);
+                MessageBox.Show("❌ Error updating exam:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public void UpdateExam(Exam exam)
+        public static void DeleteExam(int examId)
         {
-            if (exam.ExamID <= 0)
-                throw new ArgumentException("Invalid exam ID.");
-            if (exam.CourseID <= 0)
-                throw new ArgumentException("Please select a course.");
-            if (exam.SubjectID <= 0)
-                throw new ArgumentException("Please select a subject.");
-            if (string.IsNullOrWhiteSpace(exam.Time))
-                throw new ArgumentException("Exam time is required.");
-            if (string.IsNullOrWhiteSpace(exam.Room))
-                throw new ArgumentException("Room is required.");
-
             try
             {
-                examRepo.UpdateExam(exam);
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    string query = "DELETE FROM Exams WHERE ExamID = @id";
+                    using (var cmd = new SQLiteCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", examId);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                MessageBox.Show("✅ Exam deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error updating exam: " + ex.Message);
-            }
-        }
-
-        public void DeleteExam(int examId)
-        {
-            if (examId <= 0)
-                throw new ArgumentException("Invalid exam ID.");
-
-            try
-            {
-                examRepo.DeleteExam(examId);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error deleting exam: " + ex.Message);
+                MessageBox.Show("❌ Error deleting exam:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

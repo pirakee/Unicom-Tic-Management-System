@@ -1,104 +1,102 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SQLite;
 using System.Windows.Forms;
-using Unicom_Tic_Management_System.Models;
-using Unicom_Tic_Management_System.Repositories;
+using UnicomTICManagementSystem.Models;
+using UnicomTICManagementSystem.Repositories;
 
-namespace Unicom_Tic_Management_System.Controller
+namespace UnicomTICManagementSystem.Controllers
 {
-    public class TimetableController
+    public static class TimetableController
     {
-        private readonly TimetableRepository timetableRepo;
-
-        public TimetableController()
-        {
-            timetableRepo = new TimetableRepository();
-        }
-
-        public void AddTimetable(Timetable timetable)
+        public static void AddTimetable(int subjectId, string timeSlot, int roomId)
         {
             try
             {
-                if (timetable.CourseID == 0 || timetable.SubjectID == 0 ||
-                    string.IsNullOrWhiteSpace(timetable.Day) ||
-                    string.IsNullOrWhiteSpace(timetable.Time) ||
-                    timetable.RoomID == 0)
+                using (var conn = DatabaseManager.GetConnection())
                 {
-                    MessageBox.Show("All fields are required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    conn.Open();
+                    var cmd = new SQLiteCommand("INSERT INTO Timetables (SubjectID, TimeSlot, RoomID) VALUES (@subject, @slot, @room)", conn);
+                    cmd.Parameters.AddWithValue("@subject", subjectId);
+                    cmd.Parameters.AddWithValue("@slot", timeSlot);
+                    cmd.Parameters.AddWithValue("@room", roomId);
+                    cmd.ExecuteNonQuery();
                 }
-
-                timetableRepo.AddTimetable(timetable);
-                MessageBox.Show("Timetable added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("✅ Timetable added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error adding timetable: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("❌ Error adding timetable:\n" + ex.Message, "Add Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public void UpdateTimetable(Timetable timetable)
+        public static List<Timetable> GetAllTimetables()
         {
+            var list = new List<Timetable>();
             try
             {
-                if (timetable.TimetableID == 0)
+                using (var conn = DatabaseManager.GetConnection())
                 {
-                    MessageBox.Show("Select a timetable entry to update.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                timetableRepo.UpdateTimetable(timetable);
-                MessageBox.Show("Timetable updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error updating timetable: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        public void DeleteTimetable(int id)
-        {
-            try
-            {
-                DialogResult confirm = MessageBox.Show("Are you sure you want to delete this timetable?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (confirm == DialogResult.Yes)
-                {
-                    timetableRepo.DeleteTimetable(id);
-                    MessageBox.Show("Timetable deleted successfully!", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    conn.Open();
+                    var cmd = new SQLiteCommand("SELECT * FROM Timetables", conn);
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        list.Add(new Timetable
+                        {
+                            TimetableID = Convert.ToInt32(reader["TimetableID"]),
+                            SubjectID = Convert.ToInt32(reader["SubjectID"]),
+                            TimeSlot = reader["TimeSlot"].ToString(),
+                            RoomID = Convert.ToInt32(reader["RoomID"])
+                        });
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error deleting timetable: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("❌ Error loading timetables:\n" + ex.Message, "Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            return list;
         }
 
-        public List<Timetable> GetAllTimetables()
+        public static void UpdateTimetable(int id, int subjectId, string timeSlot, int roomId)
         {
             try
             {
-                return timetableRepo.GetAllTimetables();
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("UPDATE Timetables SET SubjectID = @subject, TimeSlot = @slot, RoomID = @room WHERE TimetableID = @id", conn);
+                    cmd.Parameters.AddWithValue("@subject", subjectId);
+                    cmd.Parameters.AddWithValue("@slot", timeSlot);
+                    cmd.Parameters.AddWithValue("@room", roomId);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                MessageBox.Show("✅ Timetable updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading timetables: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return new List<Timetable>();
+                MessageBox.Show("❌ Error updating timetable:\n" + ex.Message, "Update Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public Timetable GetTimetableById(int id)
+        public static void DeleteTimetable(int id)
         {
             try
             {
-                return timetableRepo.GetTimetableById(id);
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("DELETE FROM Timetables WHERE TimetableID = @id", conn);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                MessageBox.Show("✅ Timetable deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error finding timetable: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                MessageBox.Show("❌ Error deleting timetable:\n" + ex.Message, "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

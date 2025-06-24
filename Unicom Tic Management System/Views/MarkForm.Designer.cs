@@ -28,164 +28,91 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cbStudent = new System.Windows.Forms.ComboBox();
-            this.cbExam = new System.Windows.Forms.ComboBox();
-            this.cbSubject = new System.Windows.Forms.ComboBox();
+            this.cmbStudent = new System.Windows.Forms.ComboBox();
+            this.cmbExam = new System.Windows.Forms.ComboBox();
             this.txtScore = new System.Windows.Forms.TextBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
             this.dgvMarks = new System.Windows.Forms.DataGridView();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblStudent = new System.Windows.Forms.Label();
-            this.lblSubject = new System.Windows.Forms.Label();
-            this.lblExam = new System.Windows.Forms.Label();
-            this.lblScore = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMarks)).BeginInit();
             this.SuspendLayout();
             // 
-            // cbStudent
+            // cmbStudent
             // 
-            this.cbStudent.FormattingEnabled = true;
-            this.cbStudent.Location = new System.Drawing.Point(220, 38);
-            this.cbStudent.Name = "cbStudent";
-            this.cbStudent.Size = new System.Drawing.Size(121, 28);
-            this.cbStudent.TabIndex = 0;
+            this.cmbStudent.FormattingEnabled = true;
+            this.cmbStudent.Location = new System.Drawing.Point(251, 24);
+            this.cmbStudent.Name = "cmbStudent";
+            this.cmbStudent.Size = new System.Drawing.Size(121, 21);
+            this.cmbStudent.TabIndex = 0;
+            this.cmbStudent.SelectedIndexChanged += new System.EventHandler(this.cmbStudent_SelectedIndexChanged);
             // 
-            // cbExam
+            // cmbExam
             // 
-            this.cbExam.FormattingEnabled = true;
-            this.cbExam.Location = new System.Drawing.Point(220, 130);
-            this.cbExam.Name = "cbExam";
-            this.cbExam.Size = new System.Drawing.Size(121, 28);
-            this.cbExam.TabIndex = 2;
-            // 
-            // cbSubject
-            // 
-            this.cbSubject.FormattingEnabled = true;
-            this.cbSubject.Location = new System.Drawing.Point(220, 86);
-            this.cbSubject.Name = "cbSubject";
-            this.cbSubject.Size = new System.Drawing.Size(121, 28);
-            this.cbSubject.TabIndex = 3;
+            this.cmbExam.FormattingEnabled = true;
+            this.cmbExam.Location = new System.Drawing.Point(251, 110);
+            this.cmbExam.Name = "cmbExam";
+            this.cmbExam.Size = new System.Drawing.Size(121, 21);
+            this.cmbExam.TabIndex = 1;
             // 
             // txtScore
             // 
-            this.txtScore.Location = new System.Drawing.Point(220, 185);
+            this.txtScore.Location = new System.Drawing.Point(251, 70);
             this.txtScore.Name = "txtScore";
-            this.txtScore.Size = new System.Drawing.Size(121, 26);
-            this.txtScore.TabIndex = 4;
+            this.txtScore.Size = new System.Drawing.Size(121, 20);
+            this.txtScore.TabIndex = 2;
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(403, 28);
+            this.btnAdd.Location = new System.Drawing.Point(178, 353);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(87, 38);
-            this.btnAdd.TabIndex = 5;
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 3;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(403, 80);
+            this.btnUpdate.Location = new System.Drawing.Point(297, 353);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(87, 38);
-            this.btnUpdate.TabIndex = 6;
+            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.TabIndex = 4;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(403, 130);
+            this.btnDelete.Location = new System.Drawing.Point(434, 353);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(87, 38);
-            this.btnDelete.TabIndex = 7;
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 5;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
-            // 
-            // btnClear
-            // 
-            this.btnClear.Location = new System.Drawing.Point(403, 185);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(87, 38);
-            this.btnClear.TabIndex = 8;
-            this.btnClear.Text = "Clear";
-            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // dgvMarks
             // 
             this.dgvMarks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMarks.Location = new System.Drawing.Point(444, 265);
+            this.dgvMarks.Location = new System.Drawing.Point(178, 165);
             this.dgvMarks.Name = "dgvMarks";
-            this.dgvMarks.RowHeadersWidth = 62;
-            this.dgvMarks.RowTemplate.Height = 28;
-            this.dgvMarks.Size = new System.Drawing.Size(240, 173);
-            this.dgvMarks.TabIndex = 9;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Location = new System.Drawing.Point(153, 286);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 100);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Mark Entry";
-            // 
-            // lblStudent
-            // 
-            this.lblStudent.AutoSize = true;
-            this.lblStudent.Location = new System.Drawing.Point(62, 46);
-            this.lblStudent.Name = "lblStudent";
-            this.lblStudent.Size = new System.Drawing.Size(119, 20);
-            this.lblStudent.TabIndex = 0;
-            this.lblStudent.Text = "Select Student:";
-            // 
-            // lblSubject
-            // 
-            this.lblSubject.AutoSize = true;
-            this.lblSubject.Location = new System.Drawing.Point(62, 94);
-            this.lblSubject.Name = "lblSubject";
-            this.lblSubject.Size = new System.Drawing.Size(116, 20);
-            this.lblSubject.TabIndex = 11;
-            this.lblSubject.Text = "Select Subject:";
-            // 
-            // lblExam
-            // 
-            this.lblExam.AutoSize = true;
-            this.lblExam.Location = new System.Drawing.Point(62, 138);
-            this.lblExam.Name = "lblExam";
-            this.lblExam.Size = new System.Drawing.Size(102, 20);
-            this.lblExam.TabIndex = 12;
-            this.lblExam.Text = "Select Exam:";
-            // 
-            // lblScore
-            // 
-            this.lblScore.AutoSize = true;
-            this.lblScore.Location = new System.Drawing.Point(62, 191);
-            this.lblScore.Name = "lblScore";
-            this.lblScore.Size = new System.Drawing.Size(98, 20);
-            this.lblScore.TabIndex = 13;
-            this.lblScore.Text = "Enter Score:";
+            this.dgvMarks.Size = new System.Drawing.Size(331, 150);
+            this.dgvMarks.TabIndex = 6;
             // 
             // MarkForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            //this.BackgroundImage = global::UnicomTICManagementSystem.Properties.Resources.shapelined__JBKdviweXI_unsplash;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.lblScore);
-            this.Controls.Add(this.lblExam);
-            this.Controls.Add(this.lblSubject);
-            this.Controls.Add(this.lblStudent);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvMarks);
-            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.txtScore);
-            this.Controls.Add(this.cbSubject);
-            this.Controls.Add(this.cbExam);
-            this.Controls.Add(this.cbStudent);
+            this.Controls.Add(this.cmbExam);
+            this.Controls.Add(this.cmbStudent);
             this.Name = "MarkForm";
             this.Text = "MarkForm";
             this.Load += new System.EventHandler(this.MarkForm_Load);
@@ -197,19 +124,12 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox cbStudent;
-        private System.Windows.Forms.ComboBox cbExam;
-        private System.Windows.Forms.ComboBox cbSubject;
-        private System.Windows.Forms.TextBox txtScore;
-        private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button btnUpdate;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.DataGridView dgvMarks;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label lblStudent;
-        private System.Windows.Forms.Label lblSubject;
-        private System.Windows.Forms.Label lblExam;
-        private System.Windows.Forms.Label lblScore;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.TextBox txtScore;
+        private System.Windows.Forms.ComboBox cmbExam;
+        private System.Windows.Forms.ComboBox cmbStudent;
     }
 }

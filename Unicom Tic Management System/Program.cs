@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unicom_Tic_Management_System.database;
+using UnicomTICManagementSystem.Views;
 
-namespace Unicom_Tic_Management_System
+namespace UnicomTICManagementSystem
 {
     internal static class Program
     {
@@ -15,7 +15,6 @@ namespace Unicom_Tic_Management_System
         [STAThread]
         static void Main()
         {
-            DatabaseInitializer.InitializeDatabase(); // ✅ auto-create tables
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LoginForm());

@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Unicom_Tic_Management_System.Models
+namespace UnicomTICManagementSystem.Models
 {
     public class Room
     {
         public int RoomID { get; set; }
         public string RoomName { get; set; }
-        public string RoomType { get; set; } // Example: Lab, Hall, Classroom
+        public string RoomType { get; set; } // "Lab" or "Hall"
     }
-
 }

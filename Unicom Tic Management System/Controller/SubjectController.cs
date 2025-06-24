@@ -1,109 +1,99 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicom_Tic_Management_System.Models;
-using Unicom_Tic_Management_System.Repositories;
+using System.Data.SQLite;
+using System.Windows.Forms;
+using UnicomTICManagementSystem.Models;
+using UnicomTICManagementSystem.Repositories;
 
-namespace Unicom_Tic_Management_System.Controller
+namespace UnicomTICManagementSystem.Controllers
 {
-    public class SubjectController
+    public static class SubjectController
     {
-        private readonly SubjectRepository subjectRepo;
-
-        public SubjectController()
-        {
-            subjectRepo = new SubjectRepository();
-        }
-
-        // Get all subjects
-        public List<Subject> GetAllSubjects()
+        public static void AddSubject(string subjectName, int courseId)
         {
             try
             {
-                return subjectRepo.GetAllSubjects();
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("INSERT INTO Subjects (SubjectName, CourseID) VALUES (@name, @course)", conn);
+                    cmd.Parameters.AddWithValue("@name", subjectName);
+                    cmd.Parameters.AddWithValue("@course", courseId);
+                    cmd.ExecuteNonQuery();
+                }
+                MessageBox.Show("✅ Subject added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                throw new Exception("Controller Error: Could not fetch subjects. " + ex.Message);
+                MessageBox.Show("❌ Error adding subject:\n" + ex.Message, "Add Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // Get subjects filtered by CourseID
-        public List<Subject> GetSubjectsByCourse(int courseId)
+        public static List<Subject> GetAllSubjects()
         {
+            var list = new List<Subject>();
             try
             {
-                return subjectRepo.GetSubjectsByCourse(courseId);
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("SELECT * FROM Subjects", conn);
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        list.Add(new Subject
+                        {
+                            SubjectID = Convert.ToInt32(reader["SubjectID"]),
+                            SubjectName = reader["SubjectName"].ToString(),
+                            CourseID = Convert.ToInt32(reader["CourseID"])
+                        });
+                    }
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception("Controller Error: Could not fetch subjects by course. " + ex.Message);
+                MessageBox.Show("❌ Error loading subjects:\n" + ex.Message, "Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return list;
+        }
+
+        public static void UpdateSubject(int id, string newName, int courseId)
+        {
+            try
+            {
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("UPDATE Subjects SET SubjectName = @name, CourseID = @course WHERE SubjectID = @id", conn);
+                    cmd.Parameters.AddWithValue("@name", newName);
+                    cmd.Parameters.AddWithValue("@course", courseId);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                MessageBox.Show("✅ Subject updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("❌ Error updating subject:\n" + ex.Message, "Update Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // Add a subject
-        public void AddSubject(string subjectName, int courseId)
+        public static void DeleteSubject(int id)
         {
-            if (string.IsNullOrWhiteSpace(subjectName))
-                throw new ArgumentException("Subject name cannot be empty.");
-
-            Subject subject = new Subject
-            {
-                SubjectName = subjectName.Trim(),
-                CourseID = courseId
-            };
-
             try
             {
-                subjectRepo.AddSubject(subject);
+                using (var conn = DatabaseManager.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("DELETE FROM Subjects WHERE SubjectID = @id", conn);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                MessageBox.Show("✅ Subject deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                throw new Exception("Controller Error: Could not add subject. " + ex.Message);
-            }
-        }
-
-        // Update a subject
-        public void UpdateSubject(int subjectId, string subjectName, int courseId)
-        {
-            if (subjectId <= 0)
-                throw new ArgumentException("Invalid Subject ID.");
-
-            if (string.IsNullOrWhiteSpace(subjectName))
-                throw new ArgumentException("Subject name cannot be empty.");
-
-            Subject subject = new Subject
-            {
-                SubjectID = subjectId,
-                SubjectName = subjectName.Trim(),
-                CourseID = courseId
-            };
-
-            try
-            {
-                subjectRepo.UpdateSubject(subject);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Controller Error: Could not update subject. " + ex.Message);
-            }
-        }
-
-        // Delete a subject
-        public void DeleteSubject(int subjectId)
-        {
-            if (subjectId <= 0)
-                throw new ArgumentException("Invalid Subject ID.");
-
-            try
-            {
-                subjectRepo.DeleteSubject(subjectId);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Controller Error: Could not delete subject. " + ex.Message);
+                MessageBox.Show("❌ Error deleting subject:\n" + ex.Message, "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

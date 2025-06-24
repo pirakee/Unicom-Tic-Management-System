@@ -1,160 +1,134 @@
 ﻿using System;
+using UnicomTICManagementSystem.Controllers;
+using UnicomTICManagementSystem.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows.Forms
 
 
 
-namespace Unicom_Tic_Management_System.Views
+;
+
+namespace UnicomTICManagementSystem.Views
 {
     public partial class CourseForm : Form
     {
-        private string connectionString = "Data Source=unicom.db;Version=3;";
-
         public CourseForm()
         {
             InitializeComponent();
-            LoadCourses();
-        }
+            LoadCourses();  // Load course list when form opens
 
+        }
+        // Load all courses into the DataGridView
         private void LoadCourses()
         {
-            try
-            {
-                using (SQLiteConnection con = new SQLiteConnection(connectionString))
-                {
-                    con.Open();
-                    string query = "SELECT * FROM Courses";
-                    SQLiteDataAdapter da = new SQLiteDataAdapter(query, con);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    dgvCourses.DataSource = dt;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading courses: " + ex.Message);
-            }
+            dgvCourses.DataSource = CourseController.GetAllCourses();
+            dgvCourses.Columns["CourseID"].Visible = false; // hide ID column
         }
 
+        // Add a new course
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtCourseName.Text))
+            string name = txtCourseName.Text.Trim();
+            if (string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show("Please enter a course name.");
+                MessageBox.Show("Course name cannot be empty.");
                 return;
             }
 
-            try
+            if (CourseController.CourseExists(name))
             {
-                using (SQLiteConnection con = new SQLiteConnection(connectionString))
-                {
-                    con.Open();
-                    string query = "INSERT INTO Courses (CourseName) VALUES (@name)";
-                    SQLiteCommand cmd = new SQLiteCommand(query, con);
-                    cmd.Parameters.AddWithValue("@name", txtCourseName.Text.Trim());
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Course added successfully.");
-                    LoadCourses();
-                    ClearForm();
-                }
+                MessageBox.Show("This course already exists.");
+                return;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error adding course: " + ex.Message);
-            }
+
+            CourseController.AddCourse(name);
+            LoadCourses();
+            txtCourseName.Clear();
         }
 
+        // Update selected course
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtCourseID.Text) || string.IsNullOrWhiteSpace(txtCourseName.Text))
+            if (dgvCourses.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Please select a course to update.");
                 return;
             }
 
-            try
+            string name = txtCourseName.Text.Trim();
+            if (string.IsNullOrWhiteSpace(name))
             {
-                using (SQLiteConnection con = new SQLiteConnection(connectionString))
-                {
-                    con.Open();
-                    string query = "UPDATE Courses SET CourseName = @name WHERE CourseID = @id";
-                    SQLiteCommand cmd = new SQLiteCommand(query, con);
-                    cmd.Parameters.AddWithValue("@name", txtCourseName.Text.Trim());
-                    cmd.Parameters.AddWithValue("@id", txtCourseID.Text);
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Course updated successfully.");
-                    LoadCourses();
-                    ClearForm();
-                }
+                MessageBox.Show("Course name cannot be empty.");
+                return;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error updating course: " + ex.Message);
-            }
+
+            int courseId = Convert.ToInt32(dgvCourses.SelectedRows[0].Cells[0].Value);
+            CourseController.UpdateCourse(courseId, name);
+            LoadCourses();
+            txtCourseName.Clear();
         }
 
+        // Delete selected course
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtCourseID.Text))
+            if (dgvCourses.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Please select a course to delete.");
                 return;
             }
 
-            DialogResult result = MessageBox.Show("Are you sure you want to delete this course?", "Confirm", MessageBoxButtons.YesNo);
-            if (result == DialogResult.No) return;
+            int courseId = Convert.ToInt32(dgvCourses.SelectedRows[0].Cells[0].Value);
 
-            try
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this course?", "Confirm Delete", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
             {
-                using (SQLiteConnection con = new SQLiteConnection(connectionString))
-                {
-                    con.Open();
-                    string query = "DELETE FROM Courses WHERE CourseID = @id";
-                    SQLiteCommand cmd = new SQLiteCommand(query, con);
-                    cmd.Parameters.AddWithValue("@id", txtCourseID.Text);
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Course deleted successfully.");
-                    LoadCourses();
-                    ClearForm();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error deleting course: " + ex.Message);
+                CourseController.DeleteCourse(courseId);
+                LoadCourses();
+                txtCourseName.Clear();
             }
         }
 
-        private void btnClear_Click(object sender, EventArgs e)
-        {
-            ClearForm();
-        }
-
-        private void ClearForm()
-        {
-            txtCourseID.Clear();
-            txtCourseName.Clear();
-        }
-
+        // Fill textbox when a row is clicked
         private void dgvCourses_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                txtCourseID.Text = dgvCourses.Rows[e.RowIndex].Cells["CourseID"].Value.ToString();
                 txtCourseName.Text = dgvCourses.Rows[e.RowIndex].Cells["CourseName"].Value.ToString();
             }
         }
-    
+
+        private void dgvCourses_CancelRowEdit(object sender, QuestionEventArgs e)
+        {
+
+        }
+
+        //private void dgvCourses_CellClick(object sender, KeyPressEventArgs e)
+        //{
+
+        //}
 
         private void CourseForm_Load(object sender, EventArgs e)
         {
 
         }
+
+        private void dgvCourses_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
+
+
+
+
+
+
+
+

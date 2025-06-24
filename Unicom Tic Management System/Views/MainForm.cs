@@ -8,118 +8,121 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Unicom_Tic_Management_System.Views
+namespace UnicomTICManagementSystem.Views
 {
     public partial class MainForm : Form
     {
         private string userRole;
 
+        // Constructor receives role after login
         public MainForm(string role)
         {
             InitializeComponent();
             userRole = role;
-            lblWelcome.Text = "Welcome: " + role;
-            CustomizeViewBasedOnRole(role);
+            lblWelcome.Text = $"Welcome! Role: {role}";
+            ApplyRoleAccess();
         }
 
-        private void CustomizeViewBasedOnRole(string role)
+        // Hide or show buttons based on user role
+        private void ApplyRoleAccess()
         {
-            // Basic visibility control (example)
-            if (role == "Student")
-            {
-                btnCourses.Visible = false;
-                btnSubjects.Visible = false;
-                btnStudents.Visible = false;
-                btnExams.Visible = true;
-                btnMarks.Visible = true;
-                btnTimetable.Visible = true;
-            }
-            else if (role == "Lecturer")
-            {
-                btnCourses.Visible = false;
-                btnSubjects.Visible = true;
-                btnStudents.Visible = true;
-                btnExams.Visible = true;
-                btnMarks.Visible = true;
-                btnTimetable.Visible = true;
-            }
-            else if (role == "Staff")
-            {
-                btnCourses.Visible = true;
-                btnSubjects.Visible = true;
-                btnStudents.Visible = true;
-                btnExams.Visible = true;
-                btnMarks.Visible = true;
-                btnTimetable.Visible = true;
-            }
-            else if (role == "Admin")
-            {
-                // Admin sees everything
-            }
+            // Only Admin sees these
+            btnCourses.Visible = userRole == "Admin";
+            btnSubjects.Visible = userRole == "Admin";
+            btnStudents.Visible = userRole == "Admin";
+
+            // Admin and Staff can see Exams
+            btnExams.Visible = userRole == "Admin" || userRole == "Staff";
+
+            // Admin, Staff, Lecturer, Student can see Marks
+            btnMarks.Visible = userRole == "Admin" || userRole == "Staff" || userRole == "Lecturer" || userRole == "Student";
+
+            // Everyone can see Timetables
+            btnTimetables.Visible = true;
         }
 
-        private void btnLogout_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            LoginForm loginForm = new LoginForm();
-            loginForm.Show();
-        }
+        // Button clicks open respective forms
 
-       // You can handle button clicks here to open other forms
         private void btnCourses_Click(object sender, EventArgs e)
         {
             CourseForm courseForm = new CourseForm();
             courseForm.ShowDialog();
         }
 
-        private void btnSubjects_Click(object sender, EventArgs e)
-        {
-            SubjectForm subjectForm = new SubjectForm();
-            subjectForm.ShowDialog();
-        }
+        //private void btnSubjects_Click(object sender, EventArgs e)
+        //{
+        //    var form = new SubjectForm();
+        //    form.ShowDialog();
+        //}
 
         private void btnStudents_Click(object sender, EventArgs e)
         {
-            StudentForm studentForm = new StudentForm();
-            studentForm.ShowDialog();
+            var form = new StudentForm();
+            form.ShowDialog();
         }
 
-        //private void btnExams_Click(object sender, EventArgs e)
-        //{
-        //    ExamForm examForm = new ExamForm();
-        //    examForm.ShowDialog();
-        //}
+        private void btnExams_Click(object sender, EventArgs e)
+        {
+            var form = new ExamForm();
+            form.ShowDialog();
+        }
 
         //private void btnMarks_Click(object sender, EventArgs e)
         //{
-        //    MarkForm markForm = new MarkForm();
-        //    markForm.ShowDialog();
+        //    var form = new MarkForm();
+        //    form.ShowDialog();
         //}
 
-        //private void btnTimetable_Click(object sender, EventArgs e)
-        //{
-        //    TimetableForm timetableForm = new TimetableForm();
-        //    timetableForm.ShowDialog();
-        //}
-
-        private void label1_Click(object sender, EventArgs e)
+        private void btnTimetables_Click(object sender, EventArgs e)
         {
+            var form = new TimetableForm();
+            form.ShowDialog();
+        }
 
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            // Close main form and restart application (back to login)
+            this.Close();
+            Application.Restart();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            
+
         }
 
-        //private void btnCourses_Click(object sender, EventArgs e)
+        private void MainForm_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        //private void btnSubjects_Click(object sender, EventArgs e)
         //{
-            
+
         //}
 
-        //private void btnSubjects_Click(object sender, EventArgs e) 
+        //private void btnStudents_Click(object sender, EventArgs e)
         //{
-            
+        //    StudentForm form = new StudentForm();
+        //    form.ShowDialog();
+        //}
+
+        //private void btnExams_Click(object sender, EventArgs e)
+        //{
+        //    ExamForm form = new ExamForm();
+        //    form.ShowDialog();
+        //}
+
+        //private void btnMarks_Click(object sender, EventArgs e)
+        //{
+        //    MarkForm form = new MarkForm();
+        //    form.ShowDialog();
+        //}
+
+        //private void btnTimetables_Click(object sender, EventArgs e)
+        //{
+        //    TimetableForm form = new TimetableForm();
+        //    form.ShowDialog();
         //}
     }
 }

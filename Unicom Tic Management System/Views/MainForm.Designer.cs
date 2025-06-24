@@ -1,4 +1,7 @@
-﻿namespace Unicom_Tic_Management_System.Views
+﻿using System;
+using Unicom_Tic_Management_System.Views;
+
+namespace UnicomTICManagementSystem.Views
 {
     partial class MainForm
     {
@@ -34,92 +37,96 @@
             this.btnStudents = new System.Windows.Forms.Button();
             this.btnExams = new System.Windows.Forms.Button();
             this.btnMarks = new System.Windows.Forms.Button();
-            this.btnTimetable = new System.Windows.Forms.Button();
+            this.btnTimetables = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblWelcome
             // 
             this.lblWelcome.AutoSize = true;
-            this.lblWelcome.Location = new System.Drawing.Point(307, 24);
+            this.lblWelcome.Location = new System.Drawing.Point(105, 47);
             this.lblWelcome.Name = "lblWelcome";
-            this.lblWelcome.Size = new System.Drawing.Size(124, 20);
+            this.lblWelcome.Size = new System.Drawing.Size(55, 13);
             this.lblWelcome.TabIndex = 0;
-            this.lblWelcome.Text = "Welcome: [Role]";
-            this.lblWelcome.Click += new System.EventHandler(this.label1_Click);
+            this.lblWelcome.Text = "Welcome!";
             // 
             // btnCourses
             // 
-            this.btnCourses.Location = new System.Drawing.Point(42, 87);
+            this.btnCourses.Location = new System.Drawing.Point(91, 114);
             this.btnCourses.Name = "btnCourses";
-            this.btnCourses.Size = new System.Drawing.Size(216, 44);
+            this.btnCourses.Size = new System.Drawing.Size(75, 23);
             this.btnCourses.TabIndex = 1;
-            this.btnCourses.Text = "Manage Courses";
+            this.btnCourses.Text = "Courses";
             this.btnCourses.UseVisualStyleBackColor = true;
             this.btnCourses.Click += new System.EventHandler(this.btnCourses_Click);
             // 
             // btnSubjects
             // 
-            this.btnSubjects.Location = new System.Drawing.Point(525, 87);
+            this.btnSubjects.Location = new System.Drawing.Point(91, 154);
             this.btnSubjects.Name = "btnSubjects";
-            this.btnSubjects.Size = new System.Drawing.Size(216, 44);
+            this.btnSubjects.Size = new System.Drawing.Size(75, 23);
             this.btnSubjects.TabIndex = 2;
-            this.btnSubjects.Text = "Manage Subjects";
+            this.btnSubjects.Text = "Subjects";
             this.btnSubjects.UseVisualStyleBackColor = true;
             this.btnSubjects.Click += new System.EventHandler(this.btnSubjects_Click);
             // 
             // btnStudents
             // 
-            this.btnStudents.Location = new System.Drawing.Point(42, 178);
+            this.btnStudents.Location = new System.Drawing.Point(91, 196);
             this.btnStudents.Name = "btnStudents";
-            this.btnStudents.Size = new System.Drawing.Size(216, 44);
+            this.btnStudents.Size = new System.Drawing.Size(75, 23);
             this.btnStudents.TabIndex = 3;
-            this.btnStudents.Text = "Manage Students";
+            this.btnStudents.Text = "Students";
             this.btnStudents.UseVisualStyleBackColor = true;
+            this.btnStudents.Click += new System.EventHandler(this.btnStudents_Click);
             // 
             // btnExams
             // 
-            this.btnExams.Location = new System.Drawing.Point(535, 162);
+            this.btnExams.Location = new System.Drawing.Point(91, 236);
             this.btnExams.Name = "btnExams";
-            this.btnExams.Size = new System.Drawing.Size(216, 44);
+            this.btnExams.Size = new System.Drawing.Size(75, 23);
             this.btnExams.TabIndex = 4;
-            this.btnExams.Text = "Manage Exams";
+            this.btnExams.Text = "Exams";
             this.btnExams.UseVisualStyleBackColor = true;
+            this.btnExams.Click += new System.EventHandler(this.btnExams_Click);
             // 
             // btnMarks
             // 
-            this.btnMarks.Location = new System.Drawing.Point(42, 263);
+            this.btnMarks.Location = new System.Drawing.Point(91, 282);
             this.btnMarks.Name = "btnMarks";
-            this.btnMarks.Size = new System.Drawing.Size(216, 44);
+            this.btnMarks.Size = new System.Drawing.Size(75, 23);
             this.btnMarks.TabIndex = 5;
-            this.btnMarks.Text = "Manage Marks";
+            this.btnMarks.Text = "Marks";
             this.btnMarks.UseVisualStyleBackColor = true;
+            this.btnMarks.Click += new System.EventHandler(this.btnMarks_Click);
             // 
-            // btnTimetable
+            // btnTimetables
             // 
-            this.btnTimetable.Location = new System.Drawing.Point(535, 263);
-            this.btnTimetable.Name = "btnTimetable";
-            this.btnTimetable.Size = new System.Drawing.Size(216, 44);
-            this.btnTimetable.TabIndex = 6;
-            this.btnTimetable.Text = "Manage Timetable";
-            this.btnTimetable.UseVisualStyleBackColor = true;
+            this.btnTimetables.Location = new System.Drawing.Point(91, 327);
+            this.btnTimetables.Name = "btnTimetables";
+            this.btnTimetables.Size = new System.Drawing.Size(75, 23);
+            this.btnTimetables.TabIndex = 6;
+            this.btnTimetables.Text = "Timetables";
+            this.btnTimetables.UseVisualStyleBackColor = true;
+            this.btnTimetables.Click += new System.EventHandler(this.btnTimetables_Click);
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(311, 368);
+            this.btnLogout.Location = new System.Drawing.Point(318, 383);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(216, 44);
+            this.btnLogout.Size = new System.Drawing.Size(75, 23);
             this.btnLogout.TabIndex = 7;
             this.btnLogout.Text = "Logout";
             this.btnLogout.UseVisualStyleBackColor = true;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.btnLogout);
-            this.Controls.Add(this.btnTimetable);
+            this.Controls.Add(this.btnTimetables);
             this.Controls.Add(this.btnMarks);
             this.Controls.Add(this.btnExams);
             this.Controls.Add(this.btnStudents);
@@ -134,6 +141,18 @@
 
         }
 
+        private void btnMarks_Click(object sender, EventArgs e)
+        {
+            var form = new MarkForm();
+            form.ShowDialog();
+        }
+
+        private void btnSubjects_Click(object sender, EventArgs e)
+        {
+            var form = new SubjectForm();
+            form.ShowDialog();
+        }
+
         #endregion
 
         private System.Windows.Forms.Label lblWelcome;
@@ -142,7 +161,7 @@
         private System.Windows.Forms.Button btnStudents;
         private System.Windows.Forms.Button btnExams;
         private System.Windows.Forms.Button btnMarks;
-        private System.Windows.Forms.Button btnTimetable;
+        private System.Windows.Forms.Button btnTimetables;
         private System.Windows.Forms.Button btnLogout;
     }
 }
