@@ -89,10 +89,10 @@ namespace UnicomTICManagementSystem.Repositories
 
                     -- Sample Users
                     INSERT INTO Users (Username, Password, Role) VALUES 
-                    ('admin1', 'pass123', 'Admin'),
-                    ('staff1', 'pass123', 'Staff'),
-                    ('student1', 'pass123', 'Student'),
-                    ('lecturer1', 'pass123', 'Lecturer');
+                    ('admin1', 'admin123', 'Admin'),
+                    ('staff1', '1234', 'Staff'),
+                    ('student1', '1234', 'Student'),
+                    ('lecturer1', '1234', 'Lecturer');
 
                     -- Sample Rooms
                     INSERT INTO Rooms (RoomName, RoomType) VALUES 

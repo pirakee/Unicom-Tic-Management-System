@@ -115,5 +115,10 @@ namespace UnicomTICManagementSystem.Views
             return obj is TimetableForm form &&
                    EqualityComparer<List<Room>>.Default.Equals(rooms, form.rooms);
         }
+
+        private void cmbRoom_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

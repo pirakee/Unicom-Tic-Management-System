@@ -54,10 +54,16 @@ namespace UnicomTICManagementSystem.Views
             // cmbRoom
             // 
             this.cmbRoom.FormattingEnabled = true;
+            this.cmbRoom.Items.AddRange(new object[] {
+            "Lab",
+            "Lab1",
+            "Lab2",
+            "Hall"});
             this.cmbRoom.Location = new System.Drawing.Point(295, 67);
             this.cmbRoom.Name = "cmbRoom";
             this.cmbRoom.Size = new System.Drawing.Size(121, 21);
             this.cmbRoom.TabIndex = 4;
+            this.cmbRoom.SelectedIndexChanged += new System.EventHandler(this.cmbRoom_SelectedIndexChanged);
             // 
             // txtTimeSlot
             // 
