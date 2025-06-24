@@ -18,11 +18,6 @@ namespace UnicomTICManagementSystem.Views
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
@@ -44,11 +39,6 @@ namespace UnicomTICManagementSystem.Views
         }
 
         private void LoginForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
         {
 
         }
